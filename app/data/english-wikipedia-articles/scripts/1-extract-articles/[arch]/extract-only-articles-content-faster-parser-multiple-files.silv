@@ -1,0 +1,22 @@
+#!/usr/bin/bash
+
+LINE_PROCESSED_COUNT=0
+CONTENT=""
+FILE_NUMBER=0
+read TOTAL_LINE_COUNT FILENAME <<< "$(wc -l ${1})"
+cat ${1} | while read LINE ; do
+	if [[ "${LINE}" = "<text xml"* ]] ; then
+		CONTENT=0
+		(( ++FILE_NUMBER ))
+	fi
+	if [[ "${CONTENT}" = 0 ]] ; then
+		echo ${LINE} >> "${2}-${FILE_NUMBER}"
+	fi
+	if [[ "${LINE}" = *"</text>" ]] ; then
+		CONTENT=1
+	fi
+	(( ++LINE_PROCESSED_COUNT ))
+	LINE_PROCESSED_PERCENT=$(bc -l <<< "scale=2 ; ${LINE_PROCESSED_COUNT} * 100 / ${TOTAL_LINE_COUNT}")
+	printf "\rDone in: %.2f%%, lines processed: %s, files created: %s..." "${LINE_PROCESSED_PERCENT}" "${LINE_PROCESSED_COUNT}" "${FILE_NUMBER}"
+done
+printf "\n"

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# If the script produces any output, either it is incorrect or the data;
+#   on the other hand, if it produces no output, either it is incorrect
+#   or the data are correct
+
+# As of December 31, 2019, the following is only the simplest validation
+
+for file in $1 ; do
+    if [[ $(grep -o "<text xml" $file | wc -l) != 1 ]] ; then
+        echo "$file is NOT OK"
+    fi
+done
+
+for file in $1 ; do
+    if [[ $(grep -o "</text>" $file | wc -l) != 1 ]] ; then
+        echo "$file is NOT OK"
+    fi
+done

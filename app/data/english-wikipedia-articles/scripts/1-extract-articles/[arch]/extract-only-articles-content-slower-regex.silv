@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+grep -Pzo "      <text xml.*\n(.*\n)*?.*?</text>" ${1}
