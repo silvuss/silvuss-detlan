@@ -1,4 +1,4 @@
 app/data/english-wikipedia-articles/raw-data/
 app/data/english-wikipedia-articles/processed-data/
 .vscode
-
+.gitignore.swp
